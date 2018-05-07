@@ -8,35 +8,33 @@
  */
 class Solution {
     public ListNode rotateRight(ListNode head, int k) {
+        if (head == null) return head;
+
         ListNode curr = head;
-        while (k > 0){
-            if (curr.next != null){
-                curr = curr.next;
-            }else{ // in the trail one, go to the original head
-                curr = head;
-            }
-            k--;
+        int len = 1;
+        while (curr.next != null) {
+            curr = curr.next;
+            len++;
         }
-        ListNode finalHead = curr;
-        if (curr.next == null){ // the tail node
-            ListNode secondNode = head.next;
-            while (secondNode.next != null) secondNode = secondNode.next;
+        if (len == 1) return head;
 
-            // append the first one node to the last
-            ListNode firstOne = new ListNode(head.val);
-            firstOne.next = head.next;
-            finalHead = firstOne;
-        }
-        if (curr != head){ // append remaining from curr.next to the end
-            ListNode secondNode = curr.next;
-            finalHead = secondNode;
-            while (secondNode.next != null){
-                secondNode = secondNode.next;
-            }
-            curr.next = null;
-            secondNode.next = head;
+        int offset = len - (k % len);
+
+        ListNode newHead = head;
+        ListNode newHeadBefOne = null;
+        while (offset > 0) {
+            if (offset == 1) newHeadBefOne = newHead;
+            newHead = newHead.next;
+            if (newHead == null) newHead = head;
+            offset--;
         }
 
-        return finalHead;
+        if (newHead != head){ // then append remaining to newHead
+            ListNode node = newHead;
+            while (node.next != null) node = node.next;
+            node.next = head; // append from the first
+            newHeadBefOne.next = null; // cut off the remaining
+        }
+        return newHead;
     }
 }
