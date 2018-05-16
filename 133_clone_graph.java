@@ -1,21 +1,32 @@
-// This answer comes from community disucssion
+/**
+ * Definition for undirected graph.
+ * class UndirectedGraphNode {
+ *     int label;
+ *     List<UndirectedGraphNode> neighbors;
+ *     UndirectedGraphNode(int x) { label = x; neighbors = new ArrayList<UndirectedGraphNode>(); }
+ * };
+ */
 public class Solution {
-    private HashMap<Integer, UndirectedGraphNode> map = new HashMap<>();
     public UndirectedGraphNode cloneGraph(UndirectedGraphNode node) {
-        return clone(node);
+        if (node == null) return node;
+        Map<Integer, UndirectedGraphNode> visited = new HashMap<Integer, UndirectedGraphNode>();
+        UndirectedGraphNode result = dfs(node, visited);
+        return result;
     }
 
-    private UndirectedGraphNode clone(UndirectedGraphNode node) {
-        if (node == null) return null;
+    private UndirectedGraphNode dfs(UndirectedGraphNode original, Map<Integer, UndirectedGraphNode> visited){
+        if (visited.containsKey(original.label)){
+            return visited.get(original.label);
+        }
 
-        if (map.containsKey(node.label)) {
-            return map.get(node.label);
+        UndirectedGraphNode newNode = new UndirectedGraphNode(original.label); // 創建新的node
+        visited.put(newNode.label, newNode);
+
+        List<UndirectedGraphNode> neighbors = original.neighbors;
+        for (UndirectedGraphNode neighbor: neighbors){ // 尋遍每個node
+            UndirectedGraphNode newVisited = dfs(neighbor, visited);     // 繼續走訪新的neighbor
+            newNode.neighbors.add(newVisited); // 把遇到的neighbor加到現有的neighbor
         }
-        UndirectedGraphNode clone = new UndirectedGraphNode(node.label);
-        map.put(clone.label, clone);
-        for (UndirectedGraphNode neighbor : node.neighbors) {
-            clone.neighbors.add(clone(neighbor));
-        }
-        return clone;
+        return newNode;
     }
 }
