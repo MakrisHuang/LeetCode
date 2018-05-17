@@ -1,3 +1,4 @@
+// Use BFS to iterate island
 class Solution {
 	public int numIslands(char[][] grid) {
 		if (grid == null || grid.length < 1 || grid[0].length < 1)
