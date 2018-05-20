@@ -1,3 +1,5 @@
+// This answer can be improved by Dequeue method
+// which reaches O(n) in efficiency
 class Solution {
     public int[] maxSlidingWindow(int[] nums, int k) {
         if (nums.length == 0) return new int[0];
