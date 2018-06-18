@@ -9,9 +9,9 @@ public class Solution extends VersionControl {
         while (L < R) {
             int M = L + (R - L) / 2;
             if (isBadVersion(M) == true) {
-                R = M;
+                R = M; // could be the last bad version
             } else {
-                L = M + 1;
+                L = M + 1; // here we pass the false one, since next one could be a bad version
             }
         }
         return L;
