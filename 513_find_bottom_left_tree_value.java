@@ -9,13 +9,17 @@
  */
 class Solution {
     public int findBottomLeftValue(TreeNode root) {
-        dfs(root, 1);
+        // dfs(root, 1);
+        // return value;
+        
+        return bfs(root);
+        
 //         List<List<Integer>> result = new ArrayList<>();
 //         visitRow(root, 0, result);
     
 //         List<Integer> lastLayer = result.get(result.size() - 1);
 //         return lastLayer.get(0);
-        return value;
+        
     }
     
     int value = 0;
@@ -36,6 +40,27 @@ class Solution {
         if (node.right != null) {
             dfs(node.right, level);
         }
+    }
+    
+    private int bfs(TreeNode node) {
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.offer(node);
+        
+        TreeNode result = null;
+        
+        while (! queue.isEmpty()) {
+            result = queue.peek();       
+            int count = queue.size();
+            while (count > 0) {
+                TreeNode temp = queue.poll();
+                
+                if (temp.left != null) queue.offer(temp.left);
+                if (temp.right != null) queue.offer(temp.right);
+                count--;
+            }
+        }
+        
+        return result.val;
     }
     
 //     private void visitRow(TreeNode node, int level, List<List<Integer>> result) {
