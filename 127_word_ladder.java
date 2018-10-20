@@ -23,7 +23,7 @@ class Solution {
                for(int i = 0; i < s.length(); i++) {
                    char[] chars = s.toCharArray();
                    for(char c = 'a'; c <= 'z'; c++) { // 針對每個字元做變化，查看有無符合 endWord
-                                                      // ex. hit -> ait -> bit ... -> hat -> hbt ...
+                                                      // ex. hit: ait -> bit ... -> hat -> hbt ...
                        chars[i] = c;
                        String word = new String(chars);
                        if(word.equals(endWord))
@@ -35,9 +35,12 @@ class Solution {
                    }
                }
            } else {
+               // we have pop up all neighbors
+               // now we encounter the very first dummy variable
                level++;
                if(!q.isEmpty()) {
-                   q.add(null);     // why add null here? dummy variable?
+                   // since their is other candidates, we push a new dummy variable again
+                   q.add(null);
                }
            }
        }
