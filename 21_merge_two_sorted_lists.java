@@ -8,48 +8,34 @@
  */
 class Solution {
     public ListNode mergeTwoLists(ListNode l1, ListNode l2) {
-        ListNode result = null;
-        ListNode head = result;
-        while (l1 != null && l2 != null){
-            ListNode node = new ListNode(0);
-            if (l1.val > l2.val){
-                node.val = l2.val;
+        ListNode head = new ListNode(0);
+        ListNode curr = head;
+        while (l1 != null && l2 != null) {
+            if (l1.val < l2.val) {
+                curr.next = l1;
+                l1 = l1.next;
+            } else {
+                curr.next = l2;
                 l2 = l2.next;
             }
-            else if (l1.val < l2.val){
-                node.val = l1.val;
-                l1 = l1.next;
-            }else{
-                // select l1 to consume
-                node.val = l1.val;
-                l1 = l1.next;
-            }
+            curr = curr.next;
+        }
 
-            if (result == null){
-                result = node;
-                head = result;
-            }else{
-                result.next = node;
-                result = result.next;
+        if (l1 != null && l2 == null) {
+            while (l1 != null) {
+                curr.next = l1;
+                curr = curr.next;
+                l1 = l1.next;
             }
         }
-        // append remaining node
-        if (l1 != null){
-            if (result == null){
-                result = l1;
-                head = result;
-            }else{
-                result.next = l1;
+
+        if (l1 == null && l2 != null) {
+            while (l2 != null) {
+                curr.next = l2;
+                curr = curr.next;
+                l2 = l2.next;
             }
         }
-        if (l2 != null){
-            if (result == null){
-                result = l2;
-                head = result;
-            }else{
-                result.next = l2;
-            }
-        }
-        return head;
+        return head.next;
     }
 }
