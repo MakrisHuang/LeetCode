@@ -1,6 +1,20 @@
 class Solution {
+    // Version 1: dynamic programming
+    public int coinChange(int[] coins, int amount) {
+        int[] dp = new int[amount + 1];
+        dp[0] = 0;
+        for (int i = 1; i <= amount; i++) {
+            dp[i] = Integer.MAX_VALUE;
+            for (int ci = 0; ci < coins.length; ci++) {
+                if (i - coins[ci] >= 0 && dp[i - coins[ci]] != Integer.MAX_VALUE) {
+                    dp[i] = Math.min(dp[i], dp[i - coins[ci]] + 1);
+                }
+            }
+        }
+        return dp[amount] == Integer.MAX_VALUE ? -1 : dp[amount];
+    }
 
-    // Version 1: greedy algorithm
+    // Version 2: greedy algorithm
     public int coinChange(int[] coins, int amount){
         Arrays.sort(coins);
         int minSofar = Integer.MAX_VALUE;    // carray the minimum number of coins
@@ -29,19 +43,4 @@ class Solution {
         }
         return minSofar == Integer.MAX_VALUE? -1: minSofar;
     }
-
-    // Version 2: dynamic programming
-    // public int coinChange(int[] coins, int amount) {
-    //     int[] dp = new int[amount + 1];
-    //     dp[0] = 0;
-    //     for (int i = 1; i <= amount; i++) {
-    //         dp[i] = Integer.MAX_VALUE;
-    //         for (int ci = 0; ci < coins.length; ci++) {
-    //             if (i - coins[ci] >= 0 && dp[i - coins[ci]] != Integer.MAX_VALUE) {
-    //                 dp[i] = Math.min(dp[i], dp[i - coins[ci]] + 1);
-    //             }
-    //         }
-    //     }
-    //     return dp[amount] == Integer.MAX_VALUE ? -1 : dp[amount];
-    // }
 }

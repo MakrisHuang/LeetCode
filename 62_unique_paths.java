@@ -1,22 +1,38 @@
 class Solution {
+    // Time Complexity: C(m + n, m), Space Complexity: O(m * n)
     public int uniquePaths(int m, int n) {
-        int[][] dp = new int[m + 1][n + 1];
-        for (int i = 0; i <= m; i++) {
-            for (int j = 0; j <= n; j++) {
-                dp[i][j] = -1;
-            }
-        }
-        return backtrace(0, 0, m, n, dp);
+       int[][] mat = new int[m + 1][n + 1];
+       mat[m - 1][n] = 1;
+       for (int r = m - 1; r >= 0; r--) {
+          for (int c = n - 1; c >= 0; c--) {
+             mat[r][c] = mat[r + 1][c] + mat[r][c + 1];
+          } 
+       }
+       return mat[0][0];
     }
-
-    private int backtrace(int r, int c, int m, int n, int[][] dp) {
-        if (r == m - 1 || c == n - 1) return 1;
-        if (r >= m || c >= n) return 0;
-
-        if (dp[r + 1][c] == -1)
-            dp[r + 1][c] = backtrace(r + 1, c, m, n, dp);
-        if (dp[r][c + 1] == -1)
-            dp[r][c + 1] = backtrace(r, c + 1, m, n, dp);
-        return dp[r + 1][c] + dp[r][c + 1];
-    }
+    
+    // TLE
+//     public int uniquePaths(int m, int n) {
+//         int[][] dp = new int[m][n];
+//         dp[0][0] = 1;
+//         backtrace(dp, 0, 0, m, n);
+//         return dp[m - 1][n - 1];
+//     }
+    
+//     public void backtrace(int[][] dp, int i, int j, int rows, int cols) {
+//         if (i < 0 || j < 0 || i >= rows || j >= cols) {
+//             return;
+//         }
+//         if (i - 1 >= 0 && j == 0) {
+//             dp[i][j] = dp[i - 1][j];
+//         }
+//         if (i == 0 && j - 1 >= 0) {
+//             dp[i][j] = dp[i][j - 1];
+//         }
+//         if (i - 1 >= 0 && j - 1 >= 0) {
+//             dp[i][j] = dp[i - 1][j] + dp[i][j - 1];
+//         }
+//         backtrace(dp, i + 1, j, rows, cols);
+//         backtrace(dp, i, j + 1, rows, cols);
+//     }
 }

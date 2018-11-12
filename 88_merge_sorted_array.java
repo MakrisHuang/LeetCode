@@ -1,16 +1,12 @@
 class Solution {
      public void merge(int[] nums1, int m, int[] nums2, int n) {
-		int temp;
-	    for(int i = 0; i < n; i++)  // copy num2 to num1
-            nums1[m+i]=nums2[i];
-        for(int i=0;i < m + n; i++) {   // sort by making comparsion
-            for(int j = 0;j < m + n - i - 1; j++) {
-                if(nums1[j + 1] < nums1[j]) {
-                    temp=nums1[j + 1];
-                    nums1[j + 1]=nums1[j];
-                    nums1[j]=temp;
-                }
-            }
-        }
+         int i = m - 1, j = n - 1, total = m + n - 1;
+         while (j >= 0) {
+             if (i >= 0 && nums1[i] >= nums2[j]) {
+                 nums1[total--] = nums1[i--];
+             } else {
+                 nums1[total--] = nums2[j--];
+             }
+         }
     }
 }

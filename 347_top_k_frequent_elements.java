@@ -1,40 +1,37 @@
 class Solution {
     class Node {
-        int value;
-        int count;
-        Node (int value, int count) {
-            this.value = value;
-            this.count = count;
+        int val;
+        int occurences;
+        Node(int val, int occurences) {
+            this.val = val;
+            this.occurences = occurences;
         }
     }
-
+    
     public List<Integer> topKFrequent(int[] nums, int k) {
-        Comparator<Node> comparator = new Comparator<Node>() {
-            @Override
-            public int compare(Node o1, Node o2) {
-                return o2.count - o1.count;
-            }
-        };
-        PriorityQueue<Node> queue = new PriorityQueue<>(comparator);
-
-        Map<Integer, Integer> map = new HashMap<>();
+        Map<Integer, Node> nodeMap = new HashMap<>();
         for (int num: nums) {
-            if (map.containsKey(num)) {
-                map.put(num, map.get(num) + 1);
+            if (nodeMap.containsKey(num)) {
+                Node currNode = nodeMap.get(num);
+                currNode.occurences += 1;
+                nodeMap.put(num, currNode);
             } else {
-                map.put(num, 1);
+                nodeMap.put(num, new Node(num, 1));
             }
         }
-        for (Map.Entry<Integer, Integer> entry: map.entrySet()) {
-            Node node = new Node(entry.getKey(), entry.getValue());
-            queue.offer(node);
+        
+        PriorityQueue<Node> queue = new PriorityQueue<Node>((node1, node2) -> {
+           return node2.occurences - node1.occurences; 
+        });
+        for (Map.Entry<Integer, Node> entry: nodeMap.entrySet()) {
+            queue.offer(entry.getValue());
         }
-
-        List<Integer> result = new ArrayList<>();
-        while(!queue.isEmpty() && k > 0) {
-            result.add(queue.poll().value);
+        
+        List<Integer> res = new ArrayList<>();
+        while (k > 0) {
+            res.add(queue.poll().val);
             k--;
         }
-        return result;
+        return res;
     }
 }

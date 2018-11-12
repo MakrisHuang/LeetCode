@@ -11,12 +11,14 @@ class Solution {
     public boolean isValidBST(TreeNode root) {
         return valid(root, null, null);
     }
-
+    
     private boolean valid(TreeNode curr, Integer low, Integer high){
         if (curr == null) return true;
         return (low == null || curr.val > low) &&
                (high == null || curr.val < high) &&
-               valid(curr.left, low, curr.val) &&
+            
+                // the curr.val will be high node for next comparison (i.e. next recursion)
+               valid(curr.left, low, curr.val) && 
                valid(curr.right, curr.val, high);
     }
 }

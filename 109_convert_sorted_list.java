@@ -17,7 +17,7 @@
  */
 class Solution {
     private ListNode list;
-
+    
     public TreeNode sortedListToBST(ListNode head) {
         int n = 0;
         ListNode p = head;
@@ -28,16 +28,20 @@ class Solution {
         list = head;
         return sortedLinkedListToBST(0, n - 1);
     }
-
+    
     private TreeNode sortedLinkedListToBST(int start, int end){
         if (start > end) return null;
         int mid = (start + end) / 2;
         TreeNode leftChild = sortedLinkedListToBST(start, mid - 1);
+        
         TreeNode parent = new TreeNode(list.val);
+        
         parent.left = leftChild;
         list = list.next; // move to next element
+        
         TreeNode rightChild = sortedLinkedListToBST(mid + 1, end);
         parent.right = rightChild;
+        
         return parent;
     }
 }

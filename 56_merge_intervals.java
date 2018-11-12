@@ -8,31 +8,31 @@
  * }
  */
 class Solution {
-
     public List<Interval> merge(List<Interval> intervals) {
-		if(intervals ==null || intervals.isEmpty()) return intervals;
-
-		intervals.sort((i1,i2)-> i1.start-i2.start);
-		List<Interval> res = new LinkedList<>();
-		Iterator<Interval> it = intervals.iterator();
-		Interval cur = null;
-		while (it.hasNext()) {
-			if (null == cur)
-				cur = it.next();
-			else {
-				Interval iv = it.next();
-				if (cur.end >= iv.start) {
-					cur.end = Math.max(cur.end, iv.end);
-				} else {
-					res.add(cur);
-					cur = iv;
-				}
-			}
-		}
-		if (null != cur)
-			res.add(cur);
-		return res;
-	}
+        List<Interval> res = new ArrayList<>();
+        if (intervals == null || intervals.size() == 0) return res;
+        
+        intervals.sort((i1, i2) -> i1.start - i2.start);
+        
+        Iterator<Interval> curr = intervals.iterator();
+        Interval prev = null;
+        while (curr.hasNext()) {
+            if (prev == null) {
+                prev = curr.next();
+            } else {
+                Interval next = curr.next();
+                if (prev.end >= next.start) {
+                    prev.end = Math.max(prev.end, next.end);
+                } else {
+                    res.add(prev);
+                    prev = next;
+                }
+            }
+        }
+        if (prev != null) {
+            res.add(prev);
+        }
+        
+        return res;
+    }
 }
-
-

@@ -9,6 +9,8 @@ class Solution {
         while (result != 0){
             ++count;
             result = (result - 1) & result;
+            // count += (result % 2 == 1) ? 1 : 0;
+            // result /= 2;
         }
 
         return count;

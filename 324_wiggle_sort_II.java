@@ -1,4 +1,8 @@
 class Solution {
+    // L L M M S S
+    // re-arrange:
+    // M S S
+    //  L L M
     public void wiggleSort(int[] nums) {
         int len = nums.length;
         int[] sorted = nums.clone();

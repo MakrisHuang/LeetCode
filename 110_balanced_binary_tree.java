@@ -8,8 +8,8 @@
  * }
  */
 
-// Brute-force version
-// O(n^2) runtime, O(n) for space
+// Time Complexity: O(n ^ 2)
+// Space Complexity: O(n)
 /*
 class Solution {
     public boolean isBalanced(TreeNode root) {
@@ -18,27 +18,29 @@ class Solution {
             && isBalanced(root.left)
             && isBalanced(root.right);
     }
-
-    private int getDepth(TreeNode node){
+    
+    private int getDepth(TreeNode node) {
         if (node == null) return 0;
         return Math.max(getDepth(node.left), getDepth(node.right)) + 1;
     }
 }
 */
 
-// Bottom-up recursion
-// O(n) runtime, O(n) space
+// propagation from bottom to the top 
 class Solution {
     public boolean isBalanced(TreeNode root) {
-        return maxDepth(root) != -1;
+        return getMaxDepth(root) != -1;    
     }
-
-    private int maxDepth(TreeNode root) {
+    
+    private int getMaxDepth(TreeNode root) {
         if (root == null) return 0;
-        int left = maxDepth(root.left);
+        
+        int left = getMaxDepth(root.left);
         if (left == -1) return -1;
-        int right = maxDepth(root.right);
+        
+        int right = getMaxDepth(root.right);
         if (right == -1) return -1;
+        
         return (Math.abs(left - right) <= 1) ? Math.max(left, right) + 1 : -1;
     }
 }
