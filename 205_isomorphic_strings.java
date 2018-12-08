@@ -1,13 +1,15 @@
 class Solution {
     public boolean isIsomorphic(String s, String t) {
-        Map m = new HashMap();
-        for (Integer i=0; i<s.length(); ++i)
-            // when no duplicated key exists, put() will return null
-            // otherwise, return map.get(key)
-            // in that way, one may return null, and one may return the key
-            // which will make both return values unequal
-            if (m.put(s.charAt(i), i) != m.put(t.charAt(i)+"", i))
+        Map<Object, Integer> m = new HashMap<>();
+        for (Integer i = 0; i < s.length(); i++) {
+            // t.chatAt(i) + "" is for different object type
+            // therefore, if we have the same character, we still get null
+            Integer sValue = m.put(s.charAt(i), i);
+            Integer tValue = m.put(t.charAt(i) + "", i);
+            if (sValue != tValue) {
                 return false;
+            }
+        }
         return true;
     }
 }
