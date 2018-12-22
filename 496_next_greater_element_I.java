@@ -1,5 +1,6 @@
 class Solution {
     public int[] nextGreaterElement(int[] nums1, int[] nums2) {
+      // map from x to next greater element of x
         Map<Integer, Integer> map = new HashMap<>();
         Stack<Integer> st = new Stack<>();
 
@@ -9,7 +10,7 @@ class Solution {
             }
             st.push(nums2[i]);
         }
-        // pop remaining
+        // pop the remaining elements and set as -1 for the answer
         while (! st.empty()) {
             map.put(st.pop(), -1);
         }
