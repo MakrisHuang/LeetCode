@@ -12,36 +12,45 @@
 class Solution {
     public int pathSum(TreeNode root, int sum) {
         HashMap<Integer, Integer> preSum = new HashMap();
-        preSum.put(0,1);
-        return helper(root, 0, sum, preSum);
+        preSum.put(0,1);    // for the tree who has only 1 element
+        helper(root, 0, sum, preSum);
+        return count;
     }
-    
-    public int helper(TreeNode root, int currSum, int target, HashMap<Integer, Integer> preSum) {
+    int count = 0;
+    public void helper(TreeNode root, int currSum, int target, HashMap<Integer, Integer> preSum) {
         if (root == null) {
-            return 0;
+            return;
         }
-        
+
         currSum += root.val;
-        int res = preSum.getOrDefault(currSum - target, 0);
-        preSum.put(currSum, preSum.getOrDefault(currSum, 0) + 1);
-        
-        res += helper(root.left, currSum, target, preSum) + helper(root.right, currSum, target, preSum);
+
+        if (preSum.containsKey(currSum - target)) {
+            count += preSum.get(currSum - target);
+        }
+
+        if (!preSum.containsKey(currSum)) {
+            preSum.put(currSum, 1);
+        } else {
+            preSum.put(currSum, preSum.get(currSum)+1);
+        }
+
+        helper(root.left, currSum, target, preSum);
+        helper(root.right, currSum, target, preSum);
         preSum.put(currSum, preSum.get(currSum) - 1);
-        return res;
     }
 }
 
 // Slow version
 class Solution {
     int count = 0;
-    
+
     public int pathSum(TreeNode root, int sum) {
         if (root == null) return 0;
         List<Integer> sumList = new ArrayList<>();
         countNumOfPath(root, sumList, sum);
         return count;
     }
-    
+
     public void countNumOfPath(TreeNode root, List<Integer> sumList, int sum) {
         if (root == null) return;
         // update all previous sums
@@ -52,19 +61,19 @@ class Solution {
             }
             sumList.set(i, newSum);
         }
-        
+
         // add initial value for current node
         int val = root.val;
         if (val == sum) {
             count++;
         }
-        
+
         // and put to sumList
         sumList.add(val);
         countNumOfPath(root.left, sumList, sum);
         countNumOfPath(root.right, sumList, sum);
         sumList.remove(sumList.size() - 1);
-        
+
         // restore the values in sum list
         for (int i = 0; i < sumList.size(); i++) {
             sumList.set(i, sumList.get(i) - root.val);
