@@ -1,11 +1,46 @@
 class Solution {
-    public boolean backspaceCompare(String S, String T) {
-        for (int i = S.length() - 1, j = T.length() - 1;; i--, j--) {
-            for (int b = 0; i >= 0 && (b > 0 || S.charAt(i) == '#'); --i) b += S.charAt(i) == '#' ? 1 : -1;
-            for (int b = 0; j >= 0 && (b > 0 || T.charAt(j) == '#'); --j) b += T.charAt(j) == '#' ? 1 : -1;
-            if (i < 0 || j < 0 || S.charAt(i) != T.charAt(j)) return i == -1 && j == -1;
-        }
+    public boolean backspaceCompare(String str1, String str2) {
+        // Apply two pointer version
+        // Time Complexity: O(len(str1) + len(str2))
+        // Space Complexity: O(1)
+        int i = str1.length() - 1, j = str2.length() - 1;
+        int skip1 = 0, skip2 = 0;
+        while (i >= 0 || j >= 0) {
+            while (i >= 0) {
+                if (str1.charAt(i) == '#') {
+                    skip1++; i--;
+                } else if (skip1 > 0) {
+                    skip1--; i--;
+                } else {
+                    break;
+                }
+            }
 
+            while (j >= 0) {
+                if (str2.charAt(j) == '#') {
+                    skip2++; j--;
+                } else if (skip2 > 0) {
+                    skip2--; j--;
+                } else {
+                    break;
+                }
+            }
+
+            if (i >= 0 && j >= 0 && str1.charAt(i) != str2.charAt(j)) {
+                return false;
+            }
+
+            if ((i >= 0) != (j >= 0)) {
+                return false;
+            }
+            i--; j--;
+        }
+        return true;
+
+        // Stack version
+        // Time Complexity: O(len(str1) + len(str2))
+        // Space Complexity: O(len(str1) + len(str2))
+        //
         // Stack<Character> st1 = new Stack<>();
         // Stack<Character> st2 = new Stack<>();
         // for (int i = 0; i < str1.length(); i++) {
