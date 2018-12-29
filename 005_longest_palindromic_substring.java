@@ -1,39 +1,26 @@
 class Solution {
     public String longestPalindrome(String s) {
-        // iterate each character c
-        // for each c, find another c in the latter
-        // then compare each character in the beginning and in the end
-        String longestPalindrome = "";
-        for (int i = 0; i < s.length(); i++){
-            for (int j = i + 1; j < s.length(); j++){
-                if (s.charAt(i) == s.charAt(j)){
-                    // start to check the substring as palindrome
-                    String candidate = s.substring(i, j + 1);
-                    if (candidate.length() > longestPalindrome.length()){
-                        boolean isPalindrome = checkPalindrome(candidate);
-                        if (isPalindrome){
-                            longestPalindrome = candidate;
-                        }
-                    }
-                    if (longestPalindrome.length() == s.length()){
-                        return s;
-                    }
-                }
+        if (s == null || s.length() < 1) return "";
+        int start = 0, end = 0;
+        for (int i = 0; i < s.length(); i++) {
+            int len1 = expandAroundCenter(s, i, i);
+            int len2 = expandAroundCenter(s, i, i + 1);
+            int len = Math.max(len1, len2);
+            if (len > end - start) {
+                start = i - (len - 1) / 2;
+                end = i + len / 2;
             }
         }
-        if (longestPalindrome.length() == 0){
-            longestPalindrome = s.substring(0, 1);
-        }
-        return longestPalindrome;
+        return s.substring(start, end + 1);
     }
 
-    private boolean checkPalindrome(String candidate){
-        for (int i = 0, j = candidate.length() - 1; i <= j; i++, j--){
-            // if any pair of begin and end is not identical, then quit
-            if (candidate.charAt(i) != candidate.charAt(j)){
-                return false;
-            }
+    private int expandAroundCenter(String s, int L, int R) {
+        while (L >= 0 && R < s.length()
+               && Character.toLowerCase(s.charAt(L)) == Character.toLowerCase(s.charAt(R))) {
+            L--;
+            R++;
         }
-        return true;
+        return R - L - 1;   // because L and R are outside of boundary character
+                            // it should be (R - 1) - (L - 1) + 1 = R - L - 1
     }
 }
