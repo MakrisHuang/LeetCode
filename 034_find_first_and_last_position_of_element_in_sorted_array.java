@@ -9,6 +9,7 @@ class Solution {
                 right = mid - 1;
             }
         }
+        // eventually right will be smaller than left to break the loop
         return left;
     }
 
@@ -22,6 +23,7 @@ class Solution {
                 right = mid - 1;
             }
         }
+        // eventually left will be larger than right to break the loop
         return right;
     }
 
