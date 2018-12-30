@@ -1,17 +1,21 @@
-class Solution {
+public class Solution {
     public int longestValidParentheses(String s) {
-        int res = 0, start = 0;
-        Stack<Integer> m = new Stack<Integer>();
-        for (int i = 0; i < s.length(); ++i) {
-            if (s.charAt(i) == '(') m.push(i);
-            else if (s.charAt(i) == ')') {
-                if (m.empty()) start = i + 1;
-                else {
-                    m.pop();
-                    res = m.empty() ? Math.max(res, i - start + 1) : Math.max(res, i - m.peek());
+        int maxans = 0;
+        Stack<Integer> stack = new Stack<>();
+        stack.push(-1);
+        for (int i = 0; i < s.length(); i++) {
+            if (s.charAt(i) == '(') {
+                stack.push(i);
+            } else {
+                stack.pop();
+                if (stack.size() == 0) {
+                    stack.push(i);
+                } else {
+                    // calculate the length of the currently encountered valid string of parentheses
+                    maxans = Math.max(maxans, i - stack.peek());
                 }
             }
         }
-        return res;
+        return maxans;
     }
 }
