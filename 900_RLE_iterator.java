@@ -1,21 +1,30 @@
 class RLEIterator {
     int[] A;
-    int i, q;
+    int amountIdx, accumulated;
 
     public RLEIterator(int[] A) {
         this.A = A;
-        i = q = 0;
+        amountIdx = accumulated = 0;
     }
 
     public int next(int n) {
-        while (i < A.length) {
-            if (q + n > A[i]) {
-                n -= A[i] - q;
-                q = 0;
-                i += 2;
+        while (amountIdx < A.length) {
+            if (accumulated + n > A[amountIdx]) {
+                // because accumulated + n > A[amountIdx]
+                // such that A[amountIdx] - accumulated < n
+                // we first reduce `accumulated` from A[amountIdx]
+                // then subtract n with remaining amount
+                n -= (A[amountIdx] - accumulated);
+
+                // with previous subtraction, there is no accumulated elements
+                // set to 0
+                accumulated = 0;
+
+                // then move amountIdx forward to next amount
+                amountIdx += 2;
             } else {
-                q += n;
-                return A[i+1];
+                accumulated += n;
+                return A[amountIdx + 1];
             }
         }
 
