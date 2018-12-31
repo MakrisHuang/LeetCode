@@ -3,7 +3,7 @@ public class Solution {
         if (s == null) return null;
         if (s.length() == 0) return s;
 
-        // reverse the entire sentence
+        // reverse the entire sentence to reverse the order of words in the sentence
         s = reverse(s);
 
         List<String> list = new ArrayList<>();
