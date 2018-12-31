@@ -1,4 +1,5 @@
 class Solution {
+    // apply dynamic programming
     public int numSquares(int n) {
         if(n == 0) return 0;
         List<Integer> perfectSquares = new LinkedList<>();
