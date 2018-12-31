@@ -7,31 +7,41 @@
  * }
  */
 class Solution {
+    // Time Complexity: O(len(head))
+    // Space Complexity: O(1)
     public ListNode reverseKGroup(ListNode head, int k) {
-        ListNode pre = new ListNode(0);
-        ListNode res = pre;
-        ListNode fast = pre;
-        pre.next = head;
-        while(true) {
-            for(int i = 0; i < k; i++) {
-                if(fast.next == null)
-                    return res.next;
-                fast = fast.next;
+        if (head == null || head.next == null || k == 1)
+            return head;
+        ListNode dummy = new ListNode(-1);
+        dummy.next = head;
+        ListNode begin = dummy;
+        int i = 0;
+        while (head != null){
+            i++;
+            if (i % k == 0){
+                begin = reverse(begin, head.next);
+                head = begin.next;
+            } else {
+                head = head.next;
             }
-            ListNode tmp = pre.next;
-            reverse(pre, k);
-            fast = tmp;
-            pre = tmp;
         }
+        return dummy.next;
+
     }
 
-    public void reverse(ListNode pre, int k) {
-        ListNode head = pre.next;
-        for(int i = 0; i < k - 1; i++) {
-            ListNode tmp = pre.next;
-            pre.next = head.next;
-            head.next = head.next.next;
-            pre.next.next = tmp;
+    public ListNode reverse(ListNode begin, ListNode end){
+        ListNode curr = begin.next;
+        ListNode next, first;
+        ListNode prev = begin;
+        first = curr;
+        while (curr!=end){
+            next = curr.next;
+            curr.next = prev;
+            prev = curr;
+            curr = next;
         }
+        begin.next = prev;
+        first.next = curr;
+        return first;
     }
 }
