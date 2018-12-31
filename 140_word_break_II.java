@@ -2,8 +2,9 @@ class Solution {
     // Using HashMap
     // Time Complexity: O(n ^ 3), Size of recursion tree can go up to n^2. The creation of list takes n time.
     // Space Complexity: O(n ^ 3). The depth of the recursion tree can go up to n ^ 2 and each activation record can contains a string list of size
-    public List<String> wordBreak(String s, Set<String> wordDict) {
-        return word_Break(s, wordDict, 0);
+    public List<String> wordBreak(String s, List<String> wordDict) {
+        Set<String> wordSet = new HashSet<>(wordDict);
+        return word_Break(s, wordSet, 0);
     }
     HashMap<Integer, List<String>> map = new HashMap<>();
 
