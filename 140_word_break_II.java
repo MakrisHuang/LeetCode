@@ -1,7 +1,7 @@
 class Solution {
     // Using HashMap
     // Time Complexity: O(n ^ 3), Size of recursion tree can go up to n^2. The creation of list takes n time.
-    // Space Complexity: O(n ^ 3). The depth of the recursion tree can go up to n ^ 2 and each activation record can contains a string list of size 
+    // Space Complexity: O(n ^ 3). The depth of the recursion tree can go up to n ^ 2 and each activation record can contains a string list of size
     public List<String> wordBreak(String s, Set<String> wordDict) {
         return word_Break(s, wordDict, 0);
     }
@@ -26,25 +26,25 @@ class Solution {
         map.put(start, res);
         return res;
     }
-    
-    
-    
+
+
+
     // TLE
     public List<String> wordBreak(String s, List<String> wordDict) {
         if (s == null || s.length() == 0) return null;
-        
+
         Set<String> wordSet = new HashSet<>();
         wordSet.addAll(wordDict);
-        
+
         List<List<String>> res = new ArrayList<>();
-        dfsCheck(s, wordSet, 0, res, new ArrayList<>());
-        
+        backtrace(s, wordSet, 0, res, new ArrayList<>());
+
         List<String> ans = new ArrayList<>();
         res.forEach(seq -> ans.add(String.join(" ", seq)));
         return ans;
     }
-    
-    private void dfsCheck(String s, Set<String> wordSet, int start, List<List<String>> res, List<String> temp) {
+
+    private void backtrace(String s, Set<String> wordSet, int start, List<List<String>> res, List<String> temp) {
         if (start == s.length()) {
             res.add(new ArrayList<>(temp));
         }
@@ -52,7 +52,7 @@ class Solution {
             String sub = s.substring(start, i);
             if (wordSet.contains(sub)) {
                 temp.add(sub);
-                dfsCheck(s, wordSet, i, res, temp);
+                backtrace(s, wordSet, i, res, temp);
                 temp.remove(temp.size() - 1);
             }
         }
