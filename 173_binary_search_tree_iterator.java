@@ -9,32 +9,60 @@
  */
 
 public class BSTIterator {
-
-    private Queue<Integer> queue;
+    Stack<TreeNode> stack;
 
     public BSTIterator(TreeNode root) {
-        queue = new LinkedList<>();
-        iterateTree(queue, root);
-    }
-
-    private void iterateTree(Queue<Integer> queue, TreeNode node) {
-        if (node == null) return;
-
-        iterateTree(queue, node.left);
-        if (node != null) queue.offer(node.val);
-        iterateTree(queue, node.right);
+        stack = new Stack<>();
+        TreeNode curr = root;
+        while (curr != null) {
+            stack.push(curr);
+            curr = curr.left;
+        }
     }
 
     /** @return whether we have a next smallest number */
     public boolean hasNext() {
-        return ! queue.isEmpty();
+        return stack.size() != 0;
     }
 
     /** @return the next smallest number */
     public int next() {
-        if (hasNext()) return queue.poll();
-        else return 0;
+        TreeNode node = stack.pop();
+
+        TreeNode curr = node.right;
+        while (curr != null) {
+            stack.push(curr);
+            curr = curr.left;
+        }
+
+        return node.val;
     }
+
+//     private Queue<Integer> queue;
+
+//     public BSTIterator(TreeNode root) {
+//         queue = new LinkedList<>();
+//         iterateTree(queue, root);
+//     }
+
+//     private void iterateTree(Queue<Integer> queue, TreeNode node) {
+//         if (node == null) return;
+
+//         iterateTree(queue, node.left);
+//         if (node != null) queue.offer(node.val);
+//         iterateTree(queue, node.right);
+//     }
+
+//     /** @return whether we have a next smallest number */
+//     public boolean hasNext() {
+//         return ! queue.isEmpty();
+//     }
+
+//     /** @return the next smallest number */
+//     public int next() {
+//         if (hasNext()) return queue.poll();
+//         else return 0;
+//     }
 }
 
 /**
