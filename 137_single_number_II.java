@@ -1,13 +1,18 @@
 class Solution {
     public int singleNumber(int[] nums) {
-        int ones = 0, twos = 0, threes = 0;
-        for (int i = 0; i < nums.length; i++){
-            twos |= ones & nums[i];
-            ones ^= nums[i];
-            threes = ones & twos;
-            ones &= ~threes;
-            twos &= ~threes;
+        int ans = 0;
+        for(int i = 0; i < 32; i++) {
+            int sum = 0;
+            for(int j = 0; j < nums.length; j++) {
+                if(((nums[j] >> i) & 1) == 1) {
+                    sum++;
+                    sum %= 3;
+                }
+            }
+            if(sum != 0) {
+                ans |= sum << i;
+            }
         }
-        return ones;
+        return ans;
     }
 }
