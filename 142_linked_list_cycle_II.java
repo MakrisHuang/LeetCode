@@ -17,6 +17,9 @@ public class Solution {
             fast = fast.next.next;
             slow = slow.next;
 
+            /*
+            From our calculation slow pointer traveled exactly full cycle when it meets fast pointer, and since originally it travled A before starting on a cycle, it must travel A to reach the point where cycle begins! We can start another slow pointer at head node, and move both pointers until they meet at the beginning of a cycle.
+            */
             if (fast == slow) {
                 ListNode slow2 = head;
                 while (slow2 != slow) {
