@@ -8,19 +8,38 @@
  * }
  */
 class Solution {
+    // Version 1: apply binary search
+    // Space Complexity: O(1)
     public int kthSmallest(TreeNode root, int k) {
-        List<Integer> result = new ArrayList<>();
-        inOrder(k, root, result);
-        Collections.sort(result);
-        return result.get(k - 1);
+        int count = countNodes(root.left);
+        if (k <= count) {
+            return kthSmallest(root.left, k);
+        } else if (k > count + 1) {
+            return kthSmallest(root.right, k-1-count); // 1 is counted as current node
+        }
+
+        return root.val;
     }
 
-    private void inOrder(int k, TreeNode node, List<Integer> result){
-        if (node == null) return;
-        inOrder(k, node.left, result);
-        result.add(node.val);
-        inOrder(k, node.right, result);
+    public int countNodes(TreeNode n) {
+        if (n == null) return 0;
+
+        return 1 + countNodes(n.left) + countNodes(n.right);
     }
+
+    // Version 2: in-order traversal and get all values
+//     public int kthSmallest(TreeNode root, int k) {
+//         List<Integer> result = new ArrayList<>();
+//         inOrder(k, root, result);
+//         return result.get(k - 1);
+//     }
+
+//     private void inOrder(int k, TreeNode node, List<Integer> result){
+//         if (node == null) return;
+//         inOrder(k, node.left, result);
+//         result.add(node.val);
+//         inOrder(k, node.right, result);
+//     }
 }
 
 /*
