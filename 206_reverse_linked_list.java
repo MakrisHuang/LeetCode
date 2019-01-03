@@ -8,22 +8,19 @@
  */
 class Solution {
     public ListNode reverseList(ListNode head) {
-        if (head == null) return null;
-        
-        ListNode reverseHead = null;
         ListNode curr = head;
         ListNode temp = null;
-        
-        while (curr != null) {
-            ListNode node = new ListNode(curr.val);
-            
-            node.next = temp;
-            reverseHead = node;
-            
-            temp = reverseHead;
-            
-            curr = curr.next;
+        ListNode reverseHead = head;
+
+        while (curr != null && curr.next != null) {
+            ListNode next = curr.next;
+
+            curr.next = next.next;      // connect to third node: curr -> next -> next.next => curr.next = next.next
+            next.next = reverseHead;    // connect to previous node
+
+            reverseHead = next;         // set reverse head with new node
         }
+
         return reverseHead;
     }
 }
