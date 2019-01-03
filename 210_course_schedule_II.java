@@ -12,13 +12,14 @@ class Solution {
             adj[pre][ready] = 1;
         }
 
+        // start from courses with no prerequisties
         Queue<Integer> queue = new LinkedList<>();
         for (int i = 0; i < numCourses; i++) {
             if (indegree[i] == 0) queue.offer(i);
         }
 
         List<Integer> res = new ArrayList<>();
-        int count = 0;
+        int count = 0;      // use count to check we traverse all courses
         while(queue.size() != 0) {
             int course = queue.poll();
             res.add(course);
