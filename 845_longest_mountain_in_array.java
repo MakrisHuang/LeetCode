@@ -6,23 +6,25 @@ class Solution {
 
         while (base < len) {
             int end = base;
-            // need to check whether end is left-boundary
+            // 1. need to check whether end is left-boundary
             if (end + 1 < len && A[end] < A[end + 1]) {
+                // 2. keep find the peak
                 while (end + 1 < len && A[end] < A[end + 1]) {
                     end++;
                 }
 
+                // 3. check if it's the peak
                 if (end + 1 < len && A[end] > A[end + 1]) {
-                    // record potential mountain
 
-                    // find potential valley
-                    while (end + 1< len && A[end] > A[end + 1]) {
+                    // 4. find potential valley
+                    while (end + 1 < len && A[end] > A[end + 1]) {
                         end++;
                     }
                     ans = Math.max(ans, end - base + 1);
                 }
             }
 
+            // update base position
             base = Math.max(end, base + 1);
         }
         return ans;
