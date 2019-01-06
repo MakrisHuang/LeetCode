@@ -18,8 +18,8 @@ class Solution {
     public int pickIndex() {
         int target = rand.nextInt(this.total);
         int low = 0, high = this.pre.length - 1;
-        // ex. 1, 3, 6 -> 1, 4, 10
-        // rand = 2
+        // ex. 1, 3, 6 -> 1, 4, 10 => range: (0, 1), (2, 4), (5, 10)
+        // rand = 2, target = 8
         // low = 0, high = 2, mid = 1
         // target = 8 => low = mid + 1 = 2
         while (low < high) {
