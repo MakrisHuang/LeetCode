@@ -1,5 +1,5 @@
 class RandomizedSet {
-    Map<Integer, Integer> map;
+    Map<Integer, Integer> map;  // key: number, value: index in the list
     List<Integer> list;
     Random random;
 
@@ -21,9 +21,11 @@ class RandomizedSet {
     }
 
     /** Removes a value from the set. Returns true if the set contained the specified element. */
+    // swap current number with the last one to reach O(1) time complexity
     public boolean remove(int val) {
         int valIdx;
         if (map.containsKey(val)){
+            // get current index in the list
             valIdx = map.get(val);
 
             // Cache current last ele in the list
