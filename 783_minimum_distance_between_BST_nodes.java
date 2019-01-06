@@ -8,13 +8,20 @@
  * }
  */
 class Solution {
-    Integer res = Integer.MAX_VALUE, pre = null;
-
+    Integer prev, ans;
     public int minDiffInBST(TreeNode root) {
-        if (root.left != null) minDiffInBST(root.left);
-        if (pre != null) res = Math.min(res, root.val - pre);
-        pre = root.val;
-        if (root.right != null) minDiffInBST(root.right);
-        return res;
+        prev = null;
+        ans = Integer.MAX_VALUE;
+        dfs(root);
+        return ans;
+    }
+
+    public void dfs(TreeNode node) {
+        if (node == null) return;
+        dfs(node.left);
+        if (prev != null)
+            ans = Math.min(ans, node.val - prev);
+        prev = node.val;
+        dfs(node.right);
     }
 }
