@@ -1,0 +1,32 @@
+class Solution {
+    public List<Integer> eventualSafeNodes(int[][] graph) {
+        int N = graph.length;
+        int[] color = new int[N];
+        List<Integer> ans = new ArrayList();
+
+        for (int i = 0; i < N; ++i)
+            if (dfs(i, color, graph))
+                ans.add(i);
+        return ans;
+    }
+
+    // WHITE 0: not visited
+    // GRAY 1: visiting
+    // BLACK 2: visited
+    public boolean dfs(int node, int[] color, int[][] graph) {
+        if (color[node] > 0)
+            return color[node] == 2;
+
+        color[node] = 1;
+        for (int nei: graph[node]) {
+            if (color[nei] == 2)
+                continue;
+            if (color[nei] == 1 || !dfs(nei, color, graph))
+                // found visiting one -> not safe
+                return false;
+        }
+
+        color[node] = 2;
+        return true;
+    }
+}
