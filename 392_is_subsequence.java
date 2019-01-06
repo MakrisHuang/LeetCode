@@ -19,23 +19,38 @@ class Solution {
         }
         return true;
     }
-    
-    // follow up: using binary search 
+
+    // follow up: using binary search
     // https://leetcode.com/problems/is-subsequence/discuss/87268/Java-code-for-the-follow-up-question
-    
-    /**
-     * Follow-up
-     * If we check each sk in this way, then it would be O(kn) time where k is the number of s and t is the length of t. 
-     * This is inefficient. 
-     * Since there is a lot of s, it would be reasonable to preprocess t to generate something that is easy to search for if a character of s is in t. 
-     * Sounds like a HashMap, which is super suitable for search for existing stuff. 
+
+    /*
+        Follow-up: Using binary search with hashmap
+        HashMap: check a character is in string s
+        Binary Search: find the index in the given character
+        ex. s = "aec", t = "ahbggce"
+            for t, we have {"a": [0], "b": [2], "c": [5], "e": [6], "g": [3, 4], "h": [1]}, and we have the logs:
+                c: a
+                List: 0
+                mid: 0, index: -1
+                prev: 0
+                --------------------
+                c: e
+                List: 6
+                mid: 6, index: 1
+                prev: 6
+                --------------------
+                c: c
+                List: 5
+                mid: 5, index: 7
+                prev: -1
+            Since second character `e` in s is at the end of t, we cannot find `c` after index of `e` in string t
      */
     public boolean isSubsequence(String s, String t) {
         if (s == null || t == null) return false;
 
         Map<Character, List<Integer>> map = new HashMap<>(); //<character, index>
 
-        //preprocess t
+        // push the indexes into map given the character in t
         for (int i = 0; i < t.length(); i++) {
             char curr = t.charAt(i);
             if (!map.containsKey(curr)) {
@@ -47,24 +62,34 @@ class Solution {
         int prev = -1;  //index of previous character
         for (int i = 0; i < s.length(); i++) {
             char c = s.charAt(i);
-
+            System.out.println("c: " + c);
             if (map.get(c) == null)  {
                 return false;
             } else {
                 List<Integer> list = map.get(c);
+                System.out.print("List: ");
+                for (int val: list) {
+                    System.out.print(val + " ");
+                }
+                System.out.println();
                 prev = binarySearch(prev, list, 0, list.size() - 1);
+                System.out.println("prev: " + prev);
+                System.out.println("--------------------");
                 if (prev == -1) {
                     return false;
                 }
                 prev++;
             }
         }
-        return true;    
+        return true;
     }
-
+    /*
+        keep searching index. If mid < index, search at right (increase). Once start == list.size() => not found
+    */
     private int binarySearch(int index, List<Integer> list, int start, int end) {
         while (start <= end) {
             int mid = start + (end - start) / 2;
+            System.out.println("mid: " + list.get(mid) + ", index: " + index);
             if (list.get(mid) < index) {
                 start = mid + 1;
             } else {
