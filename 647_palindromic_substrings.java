@@ -1,4 +1,13 @@
 class Solution {
+    /* Find palindrome from each center
+    The reason is the center of a palindrome can be in between two letters.
+    Such palindromes have even number of letters (such as “abba”)
+    and its center are between the two ‘b’s.
+    Let say the length of a string is N, and there are N - 1 spaces between characters
+    so we will have N + N - 1 = 2N - 1 possible centers to choose from
+
+    To iterate over each of the 2N-1 centers, we will move the left pointer every 2 times, and the right pointer every 2 times starting with the second (index 1). Hence, left = center / 2, right = center / 2 + center % 2.
+    */
     public int countSubstrings(String s) {
         int N = s.length(), counter = 0;
         for (int center = 0; center < 2 * N - 1; ++center) {
