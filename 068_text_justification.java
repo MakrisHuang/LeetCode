@@ -40,16 +40,24 @@ public class Solution {
                 // 这一行总space的个数：（长度-累计单词总长度）
                 // 每个单词后面space的个数：（长度-累计单词总长度）/单词个数
                 // r为需要平均分配到中间的空格总数
+                System.out.println("count: " + count);
+                System.out.println("diff: " + diff);
                 int spaces = (maxWidth - count) / diff;
+                System.out.println("spaces: " + spaces);
                 int r = (maxWidth - count) % diff;
+                System.out.println("r: " + r);
                 for (int i = index+1; i < last; i++) {
-                    for(int k=spaces; k > 0; k--) {
+                    // 固定量的 spaces 要 append 在 word 後面
+                    for(int k = spaces; k > 0; k--) {
                         builder.append(" ");
                     }
+                    // 多餘的 spaces 要 append 在 word 後面
+                    // 每次一個
                     if(r > 0) {
                         builder.append(" ");
                         r--;
                     }
+                    // 每個 word 後面一定至少一個 space
                     builder.append(" ");
                     builder.append(words[i]);
                 }
@@ -60,3 +68,5 @@ public class Solution {
         return lines;
     }
 }
+
+
