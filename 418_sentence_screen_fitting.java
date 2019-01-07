@@ -9,6 +9,14 @@ class Solution {
         "abc de f abc de f abc de f ..."
          ^      ^     ^    ^      ^
          0      7     13   18     25
+
+
+    "abc de f abc de f abc de f ..." // start=0
+     012345                          // start=start+cols+adjustment=0+6+1=7 (1 space removed in screen string)
+            012345                   // start=7+6+0=13
+                  012345             // start=13+6-1=18 (1 space added)
+                       012345        // start=18+6+1=25 (1 space added)
+                              012345
     */
 
     // Time Complexity: O(rows + n)
