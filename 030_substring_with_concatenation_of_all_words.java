@@ -18,12 +18,12 @@ class Solution {
         // traverse all substring
         for (int i = 0; i < s.length() - wordNum * wordLen + 1; i++) {
             Map<String, Integer> currMap = new HashMap<>();
-            int num = 0;
+            int wordIdx = 0;
 
             // examine the substring is matched
-            while (num < wordNum) {
+            while (wordIdx < wordNum) {
                 // move to next segment (word)
-                String word = s.substring(i + num * wordLen, i + (num + 1) * wordLen);
+                String word = s.substring(i + wordIdx * wordLen, i + (wordIdx + 1) * wordLen);
                 if (allWordsMap.containsKey(word)) {
                     currMap.put(word, currMap.getOrDefault(word, 0) + 1);
 
@@ -34,14 +34,16 @@ class Solution {
                 } else {
                     break;
                 }
-                num++;
+                wordIdx++;
             }
 
             // check number of words we found
-            if (num == wordNum) {
+            if (wordIdx == wordNum) {
                 res.add(i);
             }
         }
         return res;
     }
 }
+
+
