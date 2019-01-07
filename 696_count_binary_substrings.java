@@ -17,7 +17,11 @@ class Solution {
         int ans = 0;
         for (int i = 1; i <= t; i++) {
             // ans will exist between two group
-            ans += Math.min(groups[i-1], groups[i]);
+            // ex. {00,111,00} -> groups: [2, 3, 2]
+            // groups[1] = 3, groups[2] = 2 -> min = 2
+            // which means 1100 and we have 10, 1100 two combinations
+            int min = Math.min(groups[i-1], groups[i]);
+            ans += min;
         }
         return ans;
     }
