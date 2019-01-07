@@ -13,6 +13,9 @@ class Solution {
                 }
             }
             if (largestFactor != 1) {   // not a prime
+                // dp[largestFactor]: 最大因數組合次數
+                // i / largestFactor: copy dp[largestFactor] 所需要的複製次數
+                // 因此是相加
                 dp[i] = dp[largestFactor] + (int)(i / largestFactor);
             } else {
                 dp[i] = i;
