@@ -1,4 +1,6 @@
 class Solution {
+    // Time Complexity: O(n^2)
+    // Space Complexity: O(n)
     public boolean wordBreak(String s, List<String> wordDict) {
         Set<String> wordSet = new HashSet<>(wordDict);
         Queue<Integer> queue = new LinkedList<>();
