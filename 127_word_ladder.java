@@ -29,7 +29,7 @@ class Solution {
                        if(word.equals(endWord))
                            return level + 1;
                        if(dict.contains(word) && !v.contains(word)) {
-                           q.add(word);
+                           q.offer(word);
                            v.add(word);
                        }
                    }
