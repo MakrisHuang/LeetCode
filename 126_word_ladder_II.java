@@ -19,6 +19,10 @@ class Solution {
             // if a path has length longer than level
             // then get rid of it (a.k.a. prune)
             if (t.size() > level) {
+                // current length is larger than level
+                // means some words already exist in the dict
+                // ex. [cot, dot, cot]
+                // then cot need to be removed
                 for (String word: wordsSet) {
                     dict.remove(word);
                 }
