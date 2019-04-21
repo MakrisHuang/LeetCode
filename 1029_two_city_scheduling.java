@@ -1,0 +1,24 @@
+class Solution {
+    public int twoCitySchedCost(int[][] costs) {
+        int N = costs.length / 2;
+        int[][] dp = new int[N + 1][N + 1];
+
+        for (int i = 1; i <= N; i++) {
+            // city A, accumulating people from 1 person to N people
+            dp[i][0] = dp[i - 1][0] + costs[i - 1][0];
+        }
+        for (int j = 1; j <= N; j++) {
+            // city B, accumulating people from 1 person to N people
+            dp[0][j] = dp[0][j - 1] + costs[j - 1][1];
+        }
+
+        for (int i = 1; i <= N; i++) {
+            for (int j = 1; j <= N; j++) {
+                // if choose i - 1, which means select city A, and then add costs of city B (i.e. costs[i+j-1][1])
+                // otherwise, choose j - 1 (city B), and then choose city A
+                dp[i][j] = Math.min(dp[i - 1][j] + costs[i + j - 1][0], dp[i][j - 1] + costs[i + j - 1][1]);
+            }
+        }
+        return dp[N][N];
+    }
+}
