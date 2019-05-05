@@ -16,7 +16,7 @@ class Solution {
 
     private int expandAroundCenter(String s, int L, int R) {
         while (L >= 0 && R < s.length()
-               && Character.toLowerCase(s.charAt(L)) == Character.toLowerCase(s.charAt(R))) {
+               && s.charAt(L) == s.charAt(R)) {
             L--;
             R++;
         }
