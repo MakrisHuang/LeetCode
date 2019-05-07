@@ -9,35 +9,21 @@
  */
 class Solution {
     public List<String> binaryTreePaths(TreeNode root) {
-        List<List<Integer>> result = new ArrayList<>();
-        traverse(result, new ArrayList<>(), root);
-
-        List<String> strResult = new ArrayList<>();
-        for (List<Integer> list: result){
-            String str = "";
-            int listLen = list.size();
-            for (int i = 0; i < listLen; i++){
-                str += list.get(i);
-                if (i != listLen - 1) str += "->";
-            }
-            strResult.add(str);
-        }
-        return strResult;
+        List<String> paths = new ArrayList<>();
+        build(root, "", paths);
+        return paths;
     }
 
-    // use dynamic programming: record previous visited elements in path
-    private void traverse(List<List<Integer>> result, List<Integer> temp, TreeNode node){
-        if (node == null) return;
-        temp.add(node.val);
-
-        if (node.left == null & node.right == null){
-            List<Integer> newTemp = new ArrayList<>(temp);
-            result.add(newTemp);
-            temp.remove(temp.size() - 1);
-            return;
+    private void build(TreeNode root, String path, List<String> paths) {
+        if (root != null) {
+            path += Integer.toString(root.val);
+            if ((root.left == null) && (root.right == null)) {
+                paths.add(path);
+            } else {
+                path += "->";   // extend the current path
+            }
+            build(root.left, path, paths);
+            build(root.right, path, paths);
         }
-        traverse(result, temp, node.left);
-        traverse(result, temp, node.right);
-        temp.remove(temp.size() - 1);
     }
 }
