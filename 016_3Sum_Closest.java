@@ -1,30 +1,32 @@
 class Solution {
-    // Time Complexity: O(n^2)
+    // Time Complexity: O(nlogn + n^2 * logn) = O(n^2 * logn)
+    // Space Complexity: O(1)
     public int threeSumClosest(int[] nums, int target) {
         if (nums.length < 3) {
-            int sum = 0;
-            for (int val: nums) sum += val;
-            return sum;
+            return 0;
         }
-
         Arrays.sort(nums);
-        int ans = nums[0] + nums[1] + nums[2];
-
+        int closest = nums[0] + nums[1] + nums[2];
         for (int i = 0; i < nums.length; i++) {
-            int lo = i + 1, hi = nums.length - 1;
-            while (lo < hi) {
-                int sum = nums[i] + nums[lo] + nums[hi];
-                if (Math.abs(target - sum) < Math.abs(target - ans)) {
-                    ans = sum;
-                    if (target == ans) return ans;
-                }
-                if (sum > target) {
-                    hi--;
-                } else {
-                    lo++;
+            // if (i > 0 && nums[i] == nums[i - 1]) continue;
+            for (int j = i + 1; j < nums.length - 1; j++) {
+                // if (j > 0 && nums[j] == nums[j - 1]) continue;
+                int lo = j + 1, hi = nums.length - 1;
+                while (lo <= hi) {
+                    int mid = lo + (hi - lo) / 2;
+                    int sum = nums[i] + nums[j] + nums[mid];
+                    closest = (Math.abs(sum - target) < Math.abs(closest - target)) ? sum : closest;
+
+                    if (sum == target) {
+                        return sum;
+                    } else if (sum > target) {
+                        hi = mid - 1;
+                    } else {
+                        lo = mid + 1;
+                    }
                 }
             }
         }
-        return ans;
+        return closest;
     }
 }
