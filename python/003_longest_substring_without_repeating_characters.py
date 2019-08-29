@@ -1,7 +1,22 @@
 class Solution:
     def lengthOfLongestSubstring(self, s: str) -> int:
-        i, r, d = 0, 0, {}
-        for index, c in enumerate(s):
-            # use dict to record last occurrence of character
-            i, r, d[c] = max(i, d.get(c, -1) + 1), max(r, index - i), index
-        return max(r, len(s) - i)
+        from collections import defaultdict
+        repeat_map = defaultdict(int)
+        begin = end = counter = dist = 0
+
+        while end < len(s):
+            end_char = s[end]
+            repeat_map[end_char] += 1
+            if repeat_map[end_char] > 1:
+                counter += 1
+            end += 1
+
+            while counter > 0:
+                begin_char = s[begin]
+                if repeat_map[begin_char] > 1:
+                    counter -= 1
+                repeat_map[begin_char] -= 1
+                begin += 1
+
+            dist = max(dist, end - begin)
+        return dist
