@@ -6,15 +6,16 @@ class Solution:
             indegree[x] += 1
             neigh[y].add(x)
 
-        stack = [i for i in range(numCourses) if indegree[i] == 0]
+        starters = [i for i in range(numCourses) if indegree[i] == 0]
+        q = collections.deque(starters)
         res = []
-        while stack:
-            node = stack.pop()
+        while q:
+            node = q.popleft()
             res.append(node)
             for i in neigh[node]:
                 indegree[i] -= 1
                 if indegree[i] == 0:
-                    stack.append(i)
+                    q.append(i)
         for degree in indegree:
             if degree > 0: return []
         return res
