@@ -7,12 +7,8 @@ class Solution:
         elif x >= arr[-1]:
             return arr[len(arr) - k:]
         else:
-            curr = 0
-            while curr < len(arr):
-                if arr[curr] > x:
-                    arr.insert(curr, x)
-                    break
-                curr += 1
+            curr = bisect.bisect_right(arr, x)
+            arr.insert(curr, x)
             left = curr - 1
             right = curr + 1
             smaller = []
