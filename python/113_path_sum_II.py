@@ -9,7 +9,7 @@ class Solution:
     def pathSum(self, root: TreeNode, sum: int) -> List[List[int]]:
         res = []
         self.findPath(root, sum, res, [])
-        return [list(t) for t in res]
+        return res
 
     def findPath(self, root: TreeNode, sum: int, paths: List[List[int]], temp: List[int]):
         if not root: return
