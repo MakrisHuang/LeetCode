@@ -1,22 +1,20 @@
-class Solution:
-    # Time Complexity: O(E + nlogn), E = total number of flights, n = number of cities
-    def findCheapestPrice(self, n: int, flights: List[List[int]], src: int, dst: int, K: int) -> int:
-        cost = [float('inf') for _ in range(n)]
-        cost[src] = 0
-        q = collections.deque([src])
+class Solution(object):
+    def findCheapestPrice(self, n, flights, src, dst, K):
+        graph = collections.defaultdict(dict)
+        for u, v, w in flights:
+            graph[u][v] = w
 
-        stops = 0
-        while q:
-            q_size = len(q)
-            for i in range(q_size):
-                city = q.popleft()
-                for flight in flights:
-                    u, v, new_cost = flight
-                    if stops == K and v != dst:
-                        continue
-                    if city == u and cost[v] > cost[u] + new_cost:
-                        cost[v] = cost[u] + new_cost
-                        q.append(v)
-            stops += 1
-        return cost[dst] if cost[dst] != float('inf') else -1
+        best = {}
+        pq = [(0, 0, src)]
+        while pq:
+            cost, k, place = heapq.heappop(pq)
+            if k > K + 1: continue
+            if place == dst: return cost
 
+            for nei, wt in graph[place].items():
+                newcost = cost + wt
+                if newcost < best.get((k + 1, nei), float('inf')):
+                    heapq.heappush(pq, (newcost, k+1, nei))
+                    best[k + 1, nei] = newcost
+
+        return -1
