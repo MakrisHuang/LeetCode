@@ -1,27 +1,15 @@
-import operator
-class Solution:
-    # Time Complexity: O(N)
-    # Space Complexity: O(N)
-    def findShortestSubArray(self, nums: List[int]) -> int:
-        s = collections.defaultdict(lambda: (-1,-1))
-        for i, num in enumerate(nums):
-            start, end = s[num]
-            if start == -1:
-                end = start = i
-            else:
-                end = i
-            s[num] = (start, end)
+class Solution(object):
+    def findShortestSubArray(self, nums):
+        left, right, count = {}, {}, {}
+        for i, x in enumerate(nums):
+            if x not in left: left[x] = i
+            right[x] = i
+            count[x] = count.get(x, 0) + 1
 
-        count_map = collections.Counter(nums)
-        max_freq = max(count_map.items(), key=operator.itemgetter(1))[1]
-        cands = []
-        for key, value in count_map.items():
-            if value == max_freq:
-                cands.append(key)
+        ans = len(nums)
+        degree = max(count.values())
+        for x in count:
+            if count[x] == degree:
+                ans = min(ans, right[x] - left[x] + 1)
 
-        shortest = len(nums)
-        for key in cands:
-            start, end = s[key]
-            dist = end - start + 1
-            shortest = min(shortest, dist)
-        return shortest
+        return ans
