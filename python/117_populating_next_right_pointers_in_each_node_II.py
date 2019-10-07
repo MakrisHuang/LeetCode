@@ -8,22 +8,28 @@ class Node:
         self.next = next
 """
 class Solution:
+    # Time Complexity: O(n)
+    # Space Complexity: O(1)
     def connect(self, root: 'Node') -> 'Node':
-        q = []
-        if root:
-            q.append(root)
-            q.append(None)
+        if not root:
+            return None
 
-        while q:
-            curr = q.pop(0)
-            if curr:
-                curr.next = q[0]
-                if curr.left:
-                    q.append(curr.left)
-                if curr.right:
-                    q.append(curr.right)
-            else:
-                if q:
-                    q.append(None)
-
+        # set up a dummy node at the most left of curr level
+        # whenever linking next pointer for 'node'
+        # we keep the previous link
+        # that when node == None, we can keep track for previous layer
+        curr = dummy = Node()
+        node = root
+        while node:
+            if node.left:
+                curr.next = node.left
+                curr = node.left
+            if node.right:
+                curr.next = node.right
+                curr = node.right
+            node = node.next
+            if not node:
+                node = dummy.next
+                dummy.next = None
+                curr = dummy
         return root
