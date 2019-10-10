@@ -19,3 +19,49 @@ class Solution:
                     ans += (right_max - height[right])
                 right -= 1
         return ans
+
+    def trap_left_right(self, height: List[int]) -> int:
+        total_amount = 0
+        left_highest = [0] * (len(height) + 1)
+        for i in range(len(height)):
+            left_highest[i + 1] = max(left_highest[i], height[i])
+        right_max = 0
+        for i in range(len(height) - 1, -1, -1):
+            right_max = max(right_max, height[i])
+            min_neighbor_height = min(left_highest[i], right_max)
+            if min_neighbor_height > height[i]:
+                total_amount += min_neighbor_height - height[i]
+        return total_amount
+
+    # take the platform as a mountain and divide them into two part by the peak
+    # for left, starting from 0 to the peak
+    # once current height is smaller than previous max height, we can create a trap
+    # otherwise, update max height with current height
+    def trap(self, height: List[int]) -> int:
+        hei_len = len(height)
+        if hei_len < 3:
+            return 0
+
+        res, peak = 0, 0
+        max_val = height[0]
+        for i in range(hei_len):
+            if height[i] >= max_val:
+                max_val = height[i]
+                peak = i
+
+        # start from left towards peak
+        max_left, max_right = height[0], height[-1]
+        for i in range(peak):
+            if max_left < height[i]:
+                max_left = height[i]
+            else:
+                res += max_left - height[i]
+
+        for j in range(hei_len - 1, peak, -1):
+            if max_right < height[j]:
+                max_right = height[j]
+            else:
+                res += max_right - height[j]
+
+        return res
+
