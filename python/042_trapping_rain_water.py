@@ -1,5 +1,5 @@
 class Solution:
-    def trap(self, height: List[int]) -> int:
+    def trap_two_pointer(self, height: List[int]) -> int:
         # apply two pointer to accumulate trapped water
         left = 0
         right = len(height) - 1
@@ -37,7 +37,7 @@ class Solution:
     # for left, starting from 0 to the peak
     # once current height is smaller than previous max height, we can create a trap
     # otherwise, update max height with current height
-    def trap(self, height: List[int]) -> int:
+    def trap_mountain(self, height: List[int]) -> int:
         hei_len = len(height)
         if hei_len < 3:
             return 0
@@ -64,4 +64,24 @@ class Solution:
                 res += max_right - height[j]
 
         return res
+
+    def trap(self, height: List[int]) -> int:
+        # apply monotonous stack to form a decreasing valley that can trap water
+        # there are 3 parts, left height, bottom and right height
+        st = []
+        water, i = 0, 0
+        while i < len(height):
+            if not st or height[st[-1]] >= height[i]:
+                st.append(i)
+                i += 1
+            else:
+                # pop the valley
+                bottom = st.pop()
+                if st:
+                    # find smaller height between left and upcoming height
+                    min_height = min(height[st[-1]], height[i])
+                    water += (min_height - height[bottom]) * (i - st[-1] - 1)
+        return water
+
+
 
