@@ -1,20 +1,20 @@
 class Solution:
     def multiply(self, num1: str, num2: str) -> str:
-        l1, l2 = len(num1), len(num2)
-        res = [0 for _ in range(l1 + l2)]
-        carry1 = carry2 = 0
-        for i in range(l1 - 1, -1, -1):
-            for j in range(l2 - 1, -1, -1):
-                mul = carry1 + int(num1[i]) * int(num2[j])
-                p1 = i + j
-                p2 = i + j + 1
-                accum = res[p2] + mul
-
-                res[p1] += accum // 10
-                res[p2] = accum % 10
-        startWithoutZero = 0
-        while startWithoutZero < len(res) and res[startWithoutZero] == 0:
-            startWithoutZero += 1
-        res = res[startWithoutZero:]
-        s = "".join([str(c) for c in res])
-        return s if s != "" else "0"
+        # double for loop
+        M, N = len(num1), len(num2)
+        res = [0] * (M + N)
+        for i in range(M - 1, -1, -1):
+            for j in range(N - 1, -1, -1):
+                multi = int(num1[i]) * int(num2[j])
+                left = i + j
+                right = i + j + 1
+                accum = res[right] + multi
+                res[right] = accum % 10
+                res[left] += int(accum / 10)
+        num_leading_0 = 0
+        for num in res:
+            if num == 0:
+                num_leading_0 += 1
+            else: break
+        non_0_arr = [str(n) for n in res[num_leading_0:]]
+        return ''.join(non_0_arr) if len(non_0_arr) > 0 else "0"
