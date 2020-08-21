@@ -6,26 +6,24 @@
 #         self.right = None
 
 class Solution:
+    from collections import deque
     def levelOrder(self, root: TreeNode) -> List[List[int]]:
-        from queue import Queue
-        q = Queue()
-        if root:
-            q.put(root)
-            q.put(None)
-
         res = []
-        temp = []
-        while q.qsize() > 0:
-            node = q.get()
+        if not root: return res
+
+        q = deque([root, None])
+        level_vals = []
+        while q:
+            node = q.popleft()
             if node:
-                temp.append(node.val)
+                level_vals.append(node.val)
                 if node.left:
-                    q.put(node.left)
+                    q.append(node.left)
                 if node.right:
-                    q.put(node.right)
+                    q.append(node.right)
             else:
-                res.append(list(temp))
-                temp = []
-                if q.qsize() > 0:
-                    q.put(None)
+                res.append(level_vals)
+                level_vals = []
+                if q:
+                    q.append(None)
         return res
