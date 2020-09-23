@@ -14,3 +14,23 @@ class Solution:
                 dp[i] += dp[i - 2]
 
         return dp[len(s)]
+
+    def numDecodings_recursive(self, s: str) -> int:
+        def recursive(curr: int, s: str, memo: dict):
+            if curr == len(s):
+                return 1
+            if s[curr] == '0': return 0
+            if curr == len(s) - 1:
+                return 1
+
+            if s[curr:] in memo:
+                return memo[s[curr:]]
+
+            ans = recursive(curr + 1, s, memo)
+            if int(s[curr: curr + 2]) <= 26:
+                ans += recursive(curr + 2, s, memo)
+            memo[s[curr:]] = ans
+            return ans
+
+        memo = dict()
+        return recursive(0, s, memo)
