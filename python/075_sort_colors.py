@@ -3,20 +3,12 @@ class Solution:
         """
         Do not return anything, modify nums in-place instead.
         """
-        from collections import Counter
-        count = dict(Counter(nums))
-
-        def update_key(nums, curr_idx, count, key):
-            nums[curr_idx] = key
-            count[key] -= 1
-            if count[key] == 0:
-                del count[key]
-
-        for i in range(len(nums)):
-            if 0 in count:
-                update_key(nums, i, count, 0)
-            elif 1 in count:
-                update_key(nums, i, count, 1)
-            elif 2 in count:
-                update_key(nums, i, count, 2)
-
+        map = dict(collections.Counter(nums))
+        index = 0
+        for color in [0, 1, 2]:
+            if color in map:
+                count = map[color]
+                while count > 0:
+                    nums[index] = color
+                    count -= 1
+                    index += 1
