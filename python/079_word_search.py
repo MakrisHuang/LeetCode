@@ -1,25 +1,21 @@
 class Solution:
     def exist(self, board: List[List[str]], word: str) -> bool:
+        def dfs(board: List[List[str]], i: int, j: int, word: str) -> bool:
+            if len(word) == 0: return True
+            if i < 0 or i >= len(board) or j < 0 or j >= len(board[0]) or board[i][j] != word[0]:
+                return False
+            res = False
+            board[i][j] = '#'
+            for dx, dy in [[-1, 0], [0, 1], [1, 0], [0, -1]]:
+                x, y = i + dx, j + dy
+                res = dfs(board, x, y, word[1:])
+                if res: break
+            board[i][j] = word[0]
+            return res
+
+        if not board or not board[0]: return False
         for i in range(len(board)):
             for j in range(len(board[0])):
-                if self.dfs(board, word, 0, i, j):
+                if dfs(board, i, j, word):
                     return True
         return False
-
-    def dfs(self, board: List[List[str]], word: str, word_idx: int, i: int, j: int) -> bool:
-        if i < 0 or i >= len(board) or j < 0 or j >= len(board[0]):
-            return False
-
-        res = False
-        if board[i][j] == word[word_idx]:
-            word_idx += 1
-            if word_idx == len(word):
-                return True
-
-            temp = board[i][j]
-            board[i][j] = '#'
-            res = self.dfs(board, word, word_idx, i - 1, j) or self.dfs(board, word, word_idx, i, j + 1) \
-                or self.dfs(board, word, word_idx, i + 1, j) or self.dfs(board, word, word_idx, i, j - 1)
-            board[i][j] = temp
-        return res
-
