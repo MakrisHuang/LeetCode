@@ -1,17 +1,16 @@
 class Solution:
+    # Time Complexity: O(N)
+    # Space Complexity: O(N)
     def sortedSquares(self, A: List[int]) -> List[int]:
-        res = [0] * len(A)
-        left = 0
-        curr_idx = right = len(A) - 1
-
+        left, right = 0, len(A) - 1
+        res = []
         while left <= right:
-            left_square = A[left] ** 2
-            right_square = A[right] ** 2
-            if left_square > right_square:
-                res[curr_idx] = left_square
+            leftSquare, rightSquare = A[left] ** 2, A[right] ** 2
+            if leftSquare > rightSquare:
+                res.append(leftSquare)
                 left += 1
             else:
-                res[curr_idx] = right_square
+                res.append(rightSquare)
                 right -= 1
-            curr_idx -= 1
+        res.reverse()
         return res
