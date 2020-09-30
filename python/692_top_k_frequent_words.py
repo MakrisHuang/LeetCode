@@ -1,20 +1,13 @@
-from heapq import heappush, heappop
-
 class Solution:
     def topKFrequent(self, words: List[str], k: int) -> List[str]:
-        d = collections.defaultdict(int)
-        for word in words:
-            d[word] += 1
-
+        countMap = dict(collections.Counter(words))
+        from heapq import heappush, heappop
         q = []
-        for key, value in d.items():
-            heappush(q, [-value, key])
-
+        for key, value in countMap.items():
+            heappush(q, [-value, key]) # first compare times, and compare key if the same frequency
         res = []
-        while k > 0:
+        while k > 0 and q:
             res.append(heappop(q)[1])
             k -= 1
-
         return res
-
 
