@@ -19,3 +19,33 @@ class Solution:
         for degree in indegree:
             if degree > 0: return []
         return res
+
+    def findOrder_dfs(self, numCourses: int, prerequisites: List[List[int]]) -> List[int]:
+        graph = [[] for _ in range(numCourses)]
+        visited_status = [0 for _ in range(numCourses)]
+        for pre, after in prerequisites:
+            graph[pre].append(after)
+        stack = []
+        for i in range(numCourses):
+            if visited_status[i] == 0:
+                if not self.dfs(i, graph, visited_status, stack):
+                    return []
+        return stack
+
+    def dfs(self, curr, graph, visited_status, stack) -> bool:
+        if visited_status[curr] == -1:  # visiting, and cycle found
+            return False
+        if visited_status[curr] == 1:   # done visiting, do not visit again
+            return True
+
+        visited_status[curr] = -1   # mark as visiting
+
+        for nei in graph[curr]:
+            if not self.dfs(nei, graph, visited_status, stack):
+                return False
+
+        visited_status[curr] = 1    # done visiting
+
+        stack.append(curr)
+
+        return True
