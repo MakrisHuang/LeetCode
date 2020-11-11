@@ -1,14 +1,14 @@
 class Solution:
     def shortestDistance(self, words: List[str], word1: str, word2: str) -> int:
-        i1 = i2 = -1
-        res = float('inf')
-        for i, word in enumerate(words):
-            if word == word1:
-                i1 = i
-            elif word == word2:
-                i2 = i
-
-            if i1 != -1 and i2 != -1:
-                res = min(res, abs(i1 - i2))
-        return res
-
+        dist = len(words)
+        i = 0
+        curr = -1
+        while i < len(words):
+            if words[i] == word1 or words[i] == word2:
+                if curr == -1 or words[i] == words[curr]:
+                    curr = i
+                elif words[i] != words[curr]:   # curr could be word1 or word2, and i is the opposite
+                    dist = min(dist, i - curr)
+                    curr = i
+            i += 1
+        return dist
