@@ -1,8 +1,20 @@
 class Solution:
     def maxSubArray(self, nums: List[int]) -> int:
-        dp = [0] * len(nums)
-        max_sum = dp[0] = nums[0]
-        for i in range(1, len(nums)):
-            dp[i] = nums[i] + (dp[i - 1] if dp[i - 1] > 0 else 0)
-            max_sum = max(max_sum, dp[i])
+        max_sum = -math.inf
+        accum = 0
+        start = end = 0
+        temp_idx = 0
+
+        for index, val in enumerate(nums):
+            accum += val
+            if accum > max_sum:
+                max_sum = accum
+                start = temp_idx
+                end = index # keep updating end since the sum is increasing
+
+            if accum < 0:
+                accum = 0
+                # new sum shows up, need to move to new position
+                temp_idx = index + 1
+        print("subarray start index", start, "end index", end)
         return max_sum
