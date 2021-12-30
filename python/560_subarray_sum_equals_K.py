@@ -1,15 +1,29 @@
+from collections import defaultdict
+
+
 class Solution:
     def subarraySum(self, nums: List[int], k: int) -> int:
-        from collections import defaultdict
-        sum = res = 0
-        pre_sum_map = defaultdict(int)
-        # key: sum, value: count
-        pre_sum_map[0] = 1
+        count = 0
+        sum = 0
+        occurrences = defaultdict(int)    # key: sum, value: occurrence times
+        occurrences[0] = 1
+        for i in nums:
+            sum += i
+            if sum - k in occurrences:
+                count += occurrences[sum - k]
+            occurrences[sum] = occurrences[sum] + 1
+        return count
 
-        for val in nums:
-            sum += val
-            if sum - k in pre_sum_map:
-                res += pre_sum_map[sum - k]
-            pre_sum_map[sum] += 1
+    def subarraySum_n2(self, nums: List[int], k: int) -> int:
+        # use cumulative sum
+        count = 0
+        prefix = [0 for i in range(len(nums) + 1)]
+        for i in range(1, len(nums) + 1):
+            prefix[i] = prefix[i - 1] + nums[i - 1]
 
-        return res
+        for i in range(len(nums)):
+            for j in range(i + 1, len(nums) + 1):
+                if prefix[j] - prefix[i] == k:
+                    count += 1
+        return count
+
