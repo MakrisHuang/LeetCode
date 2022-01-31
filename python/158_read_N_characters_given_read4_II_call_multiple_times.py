@@ -1,20 +1,21 @@
 # The read4 API is already defined for you.
 # def read4(buf4: List[str]) -> int:
-
+# reference: https://leetcode.com/problems/read-n-characters-given-read4-ii-call-multiple-times/discuss/193873/Most-elegant-and-simple-solution-in-Python
 class Solution:
     def __init__(self):
-        self.q = []
+        self.q = collections.deque()
 
     def read(self, buf: List[str], n: int) -> int:
-        i = 0
-        while i < n:
+        total = 0
+        while total < n:
             if self.q:
-                buf[i] = self.q.pop(0)  # always enter this block to update buf
-                i += 1
-            else:                       # we only count characters read here, and push them into queue
+                buf[total] = self.q.popleft()
+                total += 1
+            else:
                 buf4 = [''] * 4
-                v = read4(buf4)
-                if v == 0:
+                num_read = read4(buf4)
+                if num_read == 0:
                     break
-                self.q += buf4[:v]
-        return i
+                for i in range(num_read):
+                    self.q.append(buf4[i])
+        return total
