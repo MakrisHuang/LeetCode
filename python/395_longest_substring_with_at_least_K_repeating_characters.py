@@ -1,4 +1,24 @@
 class Solution:
+    def longestSubstring_divideAndConquer(self, s: str, k: int) -> int:
+        # use divide and conquer.
+        def recursive(s: str, start: int, end: int, k: int) -> int:
+            if end < k: return 0
+            count = [0] * 26
+            for i in range(start, end):
+                count[ord(s[i]) - ord('a')] += 1
+            for mid in range(start, end):
+                if count[ord(s[mid]) - ord('a')] >= k: continue
+                midNext = mid + 1
+                # invalid characters cannot be used even though we include all invalid characters
+                # for example, we have 2 * d, but k=3, so we will keep skipping character d
+                while midNext < end and count[ord(s[midNext]) - ord('a')] < k:
+                    midNext += 1
+                return max(recursive(s, start, mid, k), recursive(s, midNext, end, k))
+            # if end == start, then actually we just return the length of the substring
+            return end - start
+
+        return recursive(s, 0, len(s), k)
+
     # Overall time complexity: O(N)
     def longestSubstring(self, s: str, k: int) -> int:
 
